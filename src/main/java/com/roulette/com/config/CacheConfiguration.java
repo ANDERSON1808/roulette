@@ -72,6 +72,10 @@ public class CacheConfiguration {
         return cm -> {
             createCache(cm, com.roulette.com.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
             createCache(cm, com.roulette.com.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
+            createCache(cm,com.roulette.com.domain.User.class.getName(),jcacheConfiguration);
+            createCache(cm,com.roulette.com.domain.Roulette.class.getName(),jcacheConfiguration);
+            createCache(cm,com.roulette.com.domain.Game.class.getName(),jcacheConfiguration);
+            createCache(cm,com.roulette.com.domain.Bets.class.getName(),jcacheConfiguration);
             // jhipster-needle-redis-add-entry
         };
     }
