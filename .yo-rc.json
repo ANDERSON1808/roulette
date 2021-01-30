@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.roulette.com",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "roulette",
+    "packageName": "com.roulette.com",
+    "packageFolder": "com/roulette/com",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "redis",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OThkYzRjOTllYmY1NWJjM2Y2NTgyZjE5NDY5NGJmZTZhYWMwNjIzOTE1YzkwNjhiZTNhZjA1M2ZhMTQ1ZGYyOGViNjBlNmJmMzI1ZjlkY2NmZjVmNWJkMTg1ZDk2MWFjMTY3ODBhYmM3MWUyMjA1NWUzYjgwYmI0ZjljYWM3MGI=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1611971419055,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "clientPackageManager": "npm",
+    "nativeLanguage": "en",
+    "languages": ["en", "es"],
+    "blueprints": [],
+    "skipClient": true
+  }
+}
