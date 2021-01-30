@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -24,9 +25,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * REST controller for managing {@link com.roulette.com.domain.Roulette}.
- */
 @RestController
 @RequestMapping("/api")
 public class RouletteResource {
@@ -44,13 +42,6 @@ public class RouletteResource {
         this.rouletteService = rouletteService;
     }
 
-    /**
-     * {@code POST  /roulettes} : Create a new roulette.
-     *
-     * @param rouletteDTO the rouletteDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new rouletteDTO, or with status {@code 400 (Bad Request)} if the roulette has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("/roulettes")
     public ResponseEntity<RouletteDTO> createRoulette(@Valid @RequestBody RouletteDTO rouletteDTO) throws URISyntaxException {
         log.debug("REST request to save Roulette : {}", rouletteDTO);
@@ -63,15 +54,6 @@ public class RouletteResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /roulettes} : Updates an existing roulette.
-     *
-     * @param rouletteDTO the rouletteDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated rouletteDTO,
-     * or with status {@code 400 (Bad Request)} if the rouletteDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the rouletteDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/roulettes")
     public ResponseEntity<RouletteDTO> updateRoulette(@Valid @RequestBody RouletteDTO rouletteDTO) throws URISyntaxException {
         log.debug("REST request to update Roulette : {}", rouletteDTO);
@@ -84,12 +66,6 @@ public class RouletteResource {
             .body(result);
     }
 
-    /**
-     * {@code GET  /roulettes} : get all the roulettes.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of roulettes in body.
-     */
     @GetMapping("/roulettes")
     public ResponseEntity<List<RouletteDTO>> getAllRoulettes(Pageable pageable) {
         log.debug("REST request to get a page of Roulettes");
@@ -98,12 +74,6 @@ public class RouletteResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /roulettes/:id} : get the "id" roulette.
-     *
-     * @param id the id of the rouletteDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the rouletteDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/roulettes/{id}")
     public ResponseEntity<RouletteDTO> getRoulette(@PathVariable String id) {
         log.debug("REST request to get Roulette : {}", id);
@@ -111,16 +81,22 @@ public class RouletteResource {
         return ResponseUtil.wrapOrNotFound(rouletteDTO);
     }
 
-    /**
-     * {@code DELETE  /roulettes/:id} : delete the "id" roulette.
-     *
-     * @param id the id of the rouletteDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/roulettes/{id}")
     public ResponseEntity<Void> deleteRoulette(@PathVariable String id) {
         log.debug("REST request to delete Roulette : {}", id);
         rouletteService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+    }
+
+    @PutMapping("/roulettes/{id}")
+    public ResponseEntity<Object>openRoulette(@PathVariable String id){
+        if (id == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        Object result = rouletteService.openRouletteAdmin(id);
+        if (result == null) {
+            throw new BadRequestAlertException("Roulette does not exist in the system", ENTITY_NAME, "idnull");
+        }
+        return ResponseEntity.ok().body(result);
     }
 }

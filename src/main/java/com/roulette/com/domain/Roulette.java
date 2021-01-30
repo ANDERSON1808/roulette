@@ -1,5 +1,6 @@
 package com.roulette.com.domain;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -23,12 +24,10 @@ public class Roulette implements Serializable {
     @Field("name")
     private String name;
 
-    @Max(value = 2)
+    @Range(min=0, max=36)
     @Field("maximum")
-    private Integer maximum;
 
-    @Field("colour")
-    private typeColour colour;
+    private Integer maximum;
 
     @Field("code")
     private String code;
@@ -71,18 +70,6 @@ public class Roulette implements Serializable {
         this.maximum = maximum;
     }
 
-    public typeColour getColour() {
-        return colour;
-    }
-
-    public Roulette colour(typeColour colour) {
-        this.colour = colour;
-        return this;
-    }
-
-    public void setColour(typeColour colour) {
-        this.colour = colour;
-    }
 
     public String getCode() {
         return code;
@@ -134,7 +121,6 @@ public class Roulette implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", maximum=" + getMaximum() +
-            ", colour='" + getColour() + "'" +
             ", code='" + getCode() + "'" +
             ", state='" + isState() + "'" +
             "}";

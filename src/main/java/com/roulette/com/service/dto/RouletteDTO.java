@@ -1,28 +1,25 @@
 package com.roulette.com.service.dto;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import com.roulette.com.domain.enumeration.typeColour;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * A DTO for the {@link com.roulette.com.domain.Roulette} entity.
  */
 public class RouletteDTO implements Serializable {
-    
+
     private String id;
 
     private String name;
 
-    @Max(value = 2)
-    private Integer maximum;
-
-    private typeColour colour;
+    @Range(min=0, max=36)
+    private Integer maximum = 36;
 
     private String code;
 
-    private Boolean state;
+    private Boolean state = false;
 
-    
+
     public String getId() {
         return id;
     }
@@ -45,14 +42,6 @@ public class RouletteDTO implements Serializable {
 
     public void setMaximum(Integer maximum) {
         this.maximum = maximum;
-    }
-
-    public typeColour getColour() {
-        return colour;
-    }
-
-    public void setColour(typeColour colour) {
-        this.colour = colour;
     }
 
     public String getCode() {
@@ -95,7 +84,6 @@ public class RouletteDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", maximum=" + getMaximum() +
-            ", colour='" + getColour() + "'" +
             ", code='" + getCode() + "'" +
             ", state='" + isState() + "'" +
             "}";

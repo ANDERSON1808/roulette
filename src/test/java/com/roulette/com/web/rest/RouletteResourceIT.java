@@ -76,7 +76,6 @@ public class RouletteResourceIT {
         Roulette roulette = new Roulette()
             .name(DEFAULT_NAME)
             .maximum(DEFAULT_MAXIMUM)
-            .colour(DEFAULT_COLOUR)
             .code(DEFAULT_CODE)
             .state(DEFAULT_STATE);
         return roulette;
@@ -91,7 +90,6 @@ public class RouletteResourceIT {
         Roulette roulette = new Roulette()
             .name(UPDATED_NAME)
             .maximum(UPDATED_MAXIMUM)
-            .colour(UPDATED_COLOUR)
             .code(UPDATED_CODE)
             .state(UPDATED_STATE);
         return roulette;
@@ -119,7 +117,6 @@ public class RouletteResourceIT {
         Roulette testRoulette = rouletteList.get(rouletteList.size() - 1);
         assertThat(testRoulette.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testRoulette.getMaximum()).isEqualTo(DEFAULT_MAXIMUM);
-        assertThat(testRoulette.getColour()).isEqualTo(DEFAULT_COLOUR);
         assertThat(testRoulette.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testRoulette.isState()).isEqualTo(DEFAULT_STATE);
     }
@@ -160,7 +157,7 @@ public class RouletteResourceIT {
             .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.booleanValue())));
     }
-    
+
     @Test
     public void getRoulette() throws Exception {
         // Initialize the database
@@ -196,7 +193,6 @@ public class RouletteResourceIT {
         updatedRoulette
             .name(UPDATED_NAME)
             .maximum(UPDATED_MAXIMUM)
-            .colour(UPDATED_COLOUR)
             .code(UPDATED_CODE)
             .state(UPDATED_STATE);
         RouletteDTO rouletteDTO = rouletteMapper.toDto(updatedRoulette);
@@ -212,7 +208,6 @@ public class RouletteResourceIT {
         Roulette testRoulette = rouletteList.get(rouletteList.size() - 1);
         assertThat(testRoulette.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testRoulette.getMaximum()).isEqualTo(UPDATED_MAXIMUM);
-        assertThat(testRoulette.getColour()).isEqualTo(UPDATED_COLOUR);
         assertThat(testRoulette.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testRoulette.isState()).isEqualTo(UPDATED_STATE);
     }

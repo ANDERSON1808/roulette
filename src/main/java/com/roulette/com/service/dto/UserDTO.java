@@ -37,6 +37,8 @@ public class UserDTO {
 
     private boolean activated = false;
 
+    private Integer money;
+
     @Size(min = 2, max = 10)
     private String langKey;
 
@@ -70,6 +72,7 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
+        this.money = user.getMoney();
     }
 
     public String getId() {
@@ -168,6 +171,10 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public Integer getMoney() {return money; }
+
+    public void setMoney(Integer money) {this.money = money;}
+
     public Set<String> getAuthorities() {
         return authorities;
     }
@@ -192,6 +199,7 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", money=" + money +
             "}";
     }
 }

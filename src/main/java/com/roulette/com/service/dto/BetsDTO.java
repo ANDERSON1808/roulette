@@ -1,12 +1,13 @@
 package com.roulette.com.service.dto;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link com.roulette.com.domain.Bets} entity.
  */
 public class BetsDTO implements Serializable {
-    
+
     private String id;
 
     private String roulette;
@@ -17,11 +18,12 @@ public class BetsDTO implements Serializable {
 
     private Integer colorBet;
 
+    @Size(min = 0, max = 10000)
     private Integer betValue;
 
     private Boolean state;
 
-    
+
     public String getId() {
         return id;
     }

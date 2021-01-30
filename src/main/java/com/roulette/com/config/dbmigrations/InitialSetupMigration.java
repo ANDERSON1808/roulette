@@ -42,6 +42,7 @@ public class InitialSetupMigration {
         systemUser.setEmail("system@localhost");
         systemUser.setActivated(true);
         systemUser.setLangKey("en");
+        systemUser.setMoney(1);
         systemUser.setCreatedBy(systemUser.getLogin());
         systemUser.setCreatedDate(Instant.now());
         systemUser.getAuthorities().add(adminAuthority);
@@ -57,6 +58,7 @@ public class InitialSetupMigration {
         anonymousUser.setEmail("anonymous@localhost");
         anonymousUser.setActivated(true);
         anonymousUser.setLangKey("en");
+        anonymousUser.setMoney(1);
         anonymousUser.setCreatedBy(systemUser.getLogin());
         anonymousUser.setCreatedDate(Instant.now());
         mongoTemplate.save(anonymousUser);
@@ -70,6 +72,7 @@ public class InitialSetupMigration {
         adminUser.setEmail("admin@localhost");
         adminUser.setActivated(true);
         adminUser.setLangKey("en");
+        adminUser.setMoney(1000);
         adminUser.setCreatedBy(systemUser.getLogin());
         adminUser.setCreatedDate(Instant.now());
         adminUser.getAuthorities().add(adminAuthority);
@@ -85,6 +88,7 @@ public class InitialSetupMigration {
         userUser.setEmail("user@localhost");
         userUser.setActivated(true);
         userUser.setLangKey("en");
+        userUser.setMoney(1);
         userUser.setCreatedBy(systemUser.getLogin());
         userUser.setCreatedDate(Instant.now());
         userUser.getAuthorities().add(userAuthority);

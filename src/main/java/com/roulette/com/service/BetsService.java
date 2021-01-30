@@ -1,9 +1,12 @@
 package com.roulette.com.service;
 
 import com.roulette.com.domain.Bets;
+import com.roulette.com.domain.User;
 import com.roulette.com.repository.BetsRepository;
+import com.roulette.com.repository.UserRepository;
 import com.roulette.com.service.dto.BetsDTO;
 import com.roulette.com.service.mapper.BetsMapper;
+import com.roulette.com.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,9 +28,15 @@ public class BetsService {
 
     private final BetsMapper betsMapper;
 
-    public BetsService(BetsRepository betsRepository, BetsMapper betsMapper) {
+    private final UserRepository userRepository;
+
+    private final RouletteService rouletteService;
+
+    public BetsService(BetsRepository betsRepository, BetsMapper betsMapper, UserRepository userRepository, RouletteService rouletteService) {
         this.betsRepository = betsRepository;
         this.betsMapper = betsMapper;
+        this.userRepository = userRepository;
+        this.rouletteService = rouletteService;
     }
 
     /**
@@ -52,7 +61,7 @@ public class BetsService {
     public Page<BetsDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Bets");
         return betsRepository.findAll(pageable)
-            .map(betsMapper::toDto);
+                .map(betsMapper::toDto);
     }
 
 
@@ -65,7 +74,7 @@ public class BetsService {
     public Optional<BetsDTO> findOne(String id) {
         log.debug("Request to get Bets : {}", id);
         return betsRepository.findById(id)
-            .map(betsMapper::toDto);
+                .map(betsMapper::toDto);
     }
 
     /**
@@ -76,5 +85,23 @@ public class BetsService {
     public void delete(String id) {
         log.debug("Request to delete Bets : {}", id);
         betsRepository.deleteById(id);
+    }
+
+    public BetsDTO openBeet(BetsDTO betsDTO, String user) {
+        if (!rouletteService.findOne(betsDTO.getRoulette()).get().isState()) {
+            throw new BadRequestAlertException("Roulette is not enabled\n", "BETS", "YOU_CANNOT_GET");
+        }
+        Optional<User> userOptional = userRepository.findById(user);
+        if (userOptional.isPresent() && userOptional.get().getMoney() >= betsDTO.getBetValue()) {
+            BetsDTO betsDTOSave = new BetsDTO();
+            betsDTOSave.setUser(user);
+            betsDTOSave.setBetNumber(betsDTO.getBetNumber());
+            betsDTOSave.setBetValue(betsDTO.getBetValue());
+            betsDTOSave.setColorBet(betsDTO.getColorBet());
+            betsDTOSave.setRoulette(betsDTO.getRoulette());
+            betsDTOSave.setState(true);
+            return save(betsDTOSave);
+        }
+        return null;
     }
 }
