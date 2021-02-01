@@ -8,9 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Spring Data MongoDB repository for the {@link PersistentAuditEvent} entity.
- */
 public interface PersistenceAuditEventRepository extends MongoRepository<PersistentAuditEvent, String> {
 
     List<PersistentAuditEvent> findByPrincipal(String principal);

@@ -10,9 +10,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.time.Instant;
 
-/**
- * Creates the initial database setup.
- */
 @ChangeLog(order = "001")
 public class InitialSetupMigration {
 

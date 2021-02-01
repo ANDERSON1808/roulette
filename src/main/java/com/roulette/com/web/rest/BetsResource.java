@@ -40,11 +40,11 @@ public class BetsResource {
         this.betsService = betsService;
     }
 
-    @PostMapping("/bets")
+    @PostMapping("/bets/{user}")
     public ResponseEntity<BetsDTO> createBets(@RequestBody BetsDTO betsDTO ,@PathVariable String user) throws URISyntaxException {
         log.debug("REST request to save Bets : {}", betsDTO);
-        if (betsDTO.getId() != null ) {
-            throw new BadRequestAlertException("A new bets cannot already have an ID", ENTITY_NAME, "idexists");
+        if (betsDTO.getColorBet()!=null && betsDTO.getBetValue()!=null) {
+            throw new BadRequestAlertException("You cannot post for two color and number at the same time", ENTITY_NAME, "DO_NOT_BET");
         }
         BetsDTO result = betsService.openBeet(betsDTO,user);
         if (result == null) {
@@ -53,39 +53,5 @@ public class BetsResource {
         return ResponseEntity.created(new URI("/api/bets/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId()))
             .body(result);
-    }
-
-    @PutMapping("/bets")
-    public ResponseEntity<BetsDTO> updateBets(@RequestBody BetsDTO betsDTO) throws URISyntaxException {
-        log.debug("REST request to update Bets : {}", betsDTO);
-        if (betsDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        BetsDTO result = betsService.save(betsDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, betsDTO.getId()))
-            .body(result);
-    }
-
-    @GetMapping("/bets")
-    public ResponseEntity<List<BetsDTO>> getAllBets(Pageable pageable) {
-        log.debug("REST request to get a page of Bets");
-        Page<BetsDTO> page = betsService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    @GetMapping("/bets/{id}")
-    public ResponseEntity<BetsDTO> getBets(@PathVariable String id) {
-        log.debug("REST request to get Bets : {}", id);
-        Optional<BetsDTO> betsDTO = betsService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(betsDTO);
-    }
-
-    @DeleteMapping("/bets/{id}")
-    public ResponseEntity<Void> deleteBets(@PathVariable String id) {
-        log.debug("REST request to delete Bets : {}", id);
-        betsService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 }

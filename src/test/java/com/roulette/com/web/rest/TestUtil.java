@@ -16,9 +16,6 @@ import java.time.format.DateTimeParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Utility class for testing REST controllers.
- */
 public final class TestUtil {
 
     private static final ObjectMapper mapper = createObjectMapper();
@@ -31,24 +28,10 @@ public final class TestUtil {
         return mapper;
     }
 
-    /**
-     * Convert an object to JSON byte array.
-     *
-     * @param object the object to convert.
-     * @return the JSON byte array.
-     * @throws IOException
-     */
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         return mapper.writeValueAsBytes(object);
     }
 
-    /**
-     * Create a byte array with a specific size filled with specified data.
-     *
-     * @param size the size of the byte array.
-     * @param data the data to put in the byte array.
-     * @return the JSON byte array.
-     */
     public static byte[] createByteArray(int size, String data) {
         byte[] byteArray = new byte[size];
         for (int i = 0; i < size; i++) {
@@ -57,9 +40,6 @@ public final class TestUtil {
         return byteArray;
     }
 
-    /**
-     * A matcher that tests that the examined string represents the same instant as the reference datetime.
-     */
     public static class ZonedDateTimeMatcher extends TypeSafeDiagnosingMatcher<String> {
 
         private final ZonedDateTime date;
@@ -90,18 +70,10 @@ public final class TestUtil {
         }
     }
 
-    /**
-     * Creates a matcher that matches when the examined string represents the same instant as the reference datetime.
-     *
-     * @param date the reference datetime against which the examined string is checked.
-     */
     public static ZonedDateTimeMatcher sameInstant(ZonedDateTime date) {
         return new ZonedDateTimeMatcher(date);
     }
 
-    /**
-     * Verifies the equals/hashcode contract on the domain object.
-     */
     public static <T> void equalsVerifier(Class<T> clazz) throws Exception {
         T domainObject1 = clazz.getConstructor().newInstance();
         assertThat(domainObject1.toString()).isNotNull();
@@ -118,10 +90,6 @@ public final class TestUtil {
         assertThat(domainObject1.hashCode()).isEqualTo(domainObject2.hashCode());
     }
 
-    /**
-     * Create a {@link FormattingConversionService} which use ISO date format, instead of the localized one.
-     * @return the {@link FormattingConversionService}.
-     */
     public static FormattingConversionService createFormattingConversionService() {
         DefaultFormattingConversionService dfcs = new DefaultFormattingConversionService ();
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();

@@ -26,9 +26,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.roulette.com.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
 
-/**
- * Integration tests for {@link CustomAuditEventRepository}.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 public class CustomAuditEventRepositoryIT {

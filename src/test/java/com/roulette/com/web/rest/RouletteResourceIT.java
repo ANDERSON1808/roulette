@@ -28,9 +28,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.roulette.com.domain.enumeration.typeColour;
-/**
- * Integration tests for the {@link RouletteResource} REST controller.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc
@@ -66,12 +63,6 @@ public class RouletteResourceIT {
 
     private Roulette roulette;
 
-    /**
-     * Create an entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
     public static Roulette createEntity() {
         Roulette roulette = new Roulette()
             .name(DEFAULT_NAME)
@@ -80,12 +71,6 @@ public class RouletteResourceIT {
             .state(DEFAULT_STATE);
         return roulette;
     }
-    /**
-     * Create an updated entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
     public static Roulette createUpdatedEntity() {
         Roulette roulette = new Roulette()
             .name(UPDATED_NAME)

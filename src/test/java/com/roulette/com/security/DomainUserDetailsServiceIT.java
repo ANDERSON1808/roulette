@@ -19,9 +19,6 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-/**
- * Integrations tests for {@link DomainUserDetailsService}.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 public class DomainUserDetailsServiceIT {

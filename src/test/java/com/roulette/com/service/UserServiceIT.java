@@ -25,9 +25,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Integration tests for {@link UserService}.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 public class UserServiceIT {

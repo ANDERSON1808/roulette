@@ -24,9 +24,6 @@ import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Integration tests for the {@link UserJWTController} REST controller.
- */
 @AutoConfigureMockMvc
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)

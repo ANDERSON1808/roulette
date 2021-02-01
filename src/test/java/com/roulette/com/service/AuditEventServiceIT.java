@@ -15,9 +15,6 @@ import java.time.temporal.ChronoUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Integration tests for {@link AuditEventService}.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 public class AuditEventServiceIT {

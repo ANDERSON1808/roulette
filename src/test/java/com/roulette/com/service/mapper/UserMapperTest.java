@@ -13,9 +13,6 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Unit tests for {@link UserMapper}.
- */
 public class UserMapperTest {
 
     private static final String DEFAULT_LOGIN = "johndoe";

@@ -16,9 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-/**
- * Service Implementation for managing {@link Bets}.
- */
 @Service
 public class BetsService {
 
@@ -32,19 +29,16 @@ public class BetsService {
 
     private final RouletteService rouletteService;
 
-    public BetsService(BetsRepository betsRepository, BetsMapper betsMapper, UserRepository userRepository, RouletteService rouletteService) {
+    private final UserService userService;
+
+    public BetsService(BetsRepository betsRepository, BetsMapper betsMapper, UserRepository userRepository, RouletteService rouletteService, UserService userService) {
         this.betsRepository = betsRepository;
         this.betsMapper = betsMapper;
         this.userRepository = userRepository;
         this.rouletteService = rouletteService;
+        this.userService = userService;
     }
 
-    /**
-     * Save a bets.
-     *
-     * @param betsDTO the entity to save.
-     * @return the persisted entity.
-     */
     public BetsDTO save(BetsDTO betsDTO) {
         log.debug("Request to save Bets : {}", betsDTO);
         Bets bets = betsMapper.toEntity(betsDTO);
@@ -52,12 +46,6 @@ public class BetsService {
         return betsMapper.toDto(bets);
     }
 
-    /**
-     * Get all the bets.
-     *
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
     public Page<BetsDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Bets");
         return betsRepository.findAll(pageable)
@@ -65,23 +53,12 @@ public class BetsService {
     }
 
 
-    /**
-     * Get one bets by id.
-     *
-     * @param id the id of the entity.
-     * @return the entity.
-     */
     public Optional<BetsDTO> findOne(String id) {
         log.debug("Request to get Bets : {}", id);
         return betsRepository.findById(id)
                 .map(betsMapper::toDto);
     }
 
-    /**
-     * Delete the bets by id.
-     *
-     * @param id the id of the entity.
-     */
     public void delete(String id) {
         log.debug("Request to delete Bets : {}", id);
         betsRepository.deleteById(id);
@@ -91,8 +68,11 @@ public class BetsService {
         if (!rouletteService.findOne(betsDTO.getRoulette()).get().isState()) {
             throw new BadRequestAlertException("Roulette is not enabled\n", "BETS", "YOU_CANNOT_GET");
         }
-        Optional<User> userOptional = userRepository.findById(user);
-        if (userOptional.isPresent() && userOptional.get().getMoney() >= betsDTO.getBetValue()) {
+        Optional<User> userOptional = userRepository.findOneByLogin(user);
+        Integer money =  userOptional.get().getMoney();
+        Integer moneyBets = betsDTO.getBetValue();
+        Integer total = money - moneyBets;
+        if (money >= moneyBets) {
             BetsDTO betsDTOSave = new BetsDTO();
             betsDTOSave.setUser(user);
             betsDTOSave.setBetNumber(betsDTO.getBetNumber());
@@ -100,6 +80,7 @@ public class BetsService {
             betsDTOSave.setColorBet(betsDTO.getColorBet());
             betsDTOSave.setRoulette(betsDTO.getRoulette());
             betsDTOSave.setState(true);
+            userService.updateBets(total);
             return save(betsDTOSave);
         }
         return null;

@@ -31,9 +31,6 @@ import static com.roulette.com.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Integration tests for the {@link AccountResource} REST controller.
- */
 @AutoConfigureMockMvc
 @WithMockUser(value = TEST_USER_LOGIN)
 @SpringBootTest(classes = RouletteApp.class)

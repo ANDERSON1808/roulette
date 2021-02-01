@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 
-/**
- * Controller to authenticate users.
- */
 @RestController
 @RequestMapping("/api")
 public class UserJWTController {
@@ -56,9 +53,6 @@ public class UserJWTController {
         }
         throw new BadRequestAlertException("Can't login, validate your authentication or other values!","LOGIN","USER_LOGGED_IN");
     }
-    /**
-     * Object to return as body in JWT Authentication.
-     */
     static class JWTToken {
 
         private String idToken;

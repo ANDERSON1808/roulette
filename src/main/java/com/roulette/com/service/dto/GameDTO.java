@@ -1,23 +1,24 @@
 package com.roulette.com.service.dto;
 
 import java.io.Serializable;
+import com.roulette.com.domain.enumeration.typeColour;
 
-/**
- * A DTO for the {@link com.roulette.com.domain.Game} entity.
- */
 public class GameDTO implements Serializable {
-    
+
     private String id;
 
     private String roulette;
 
-    private String winningBet;
+    private Long WinningNumber;
 
-    private Integer earnedValue;
+    private Integer winner;
 
-    private Boolean winningHouse;
+    private Long earnedValue;
 
-    
+    private typeColour colour;
+
+    private String msn;
+
     public String getId() {
         return id;
     }
@@ -34,28 +35,44 @@ public class GameDTO implements Serializable {
         this.roulette = roulette;
     }
 
-    public String getWinningBet() {
-        return winningBet;
+    public Long getWinningNumber() {
+        return WinningNumber;
     }
 
-    public void setWinningBet(String winningBet) {
-        this.winningBet = winningBet;
+    public void setWinningNumber(Long WinningNumber) {
+        this.WinningNumber = WinningNumber;
     }
 
-    public Integer getEarnedValue() {
+    public Integer getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Integer winner) {
+        this.winner = winner;
+    }
+
+    public Long getEarnedValue() {
         return earnedValue;
     }
 
-    public void setEarnedValue(Integer earnedValue) {
+    public void setEarnedValue(Long earnedValue) {
         this.earnedValue = earnedValue;
     }
 
-    public Boolean isWinningHouse() {
-        return winningHouse;
+    public typeColour getColour() {
+        return colour;
     }
 
-    public void setWinningHouse(Boolean winningHouse) {
-        this.winningHouse = winningHouse;
+    public String getMsn() {
+        return msn;
+    }
+
+    public void setMsn(String msn) {
+        this.msn = msn;
+    }
+
+    public void setColour(typeColour colour) {
+        this.colour = colour;
     }
 
     @Override
@@ -81,9 +98,10 @@ public class GameDTO implements Serializable {
         return "GameDTO{" +
             "id=" + getId() +
             ", roulette='" + getRoulette() + "'" +
-            ", winningBet='" + getWinningBet() + "'" +
+            ", WinningNumber=" + getWinningNumber() +
+            ", winner=" + getWinner() +
             ", earnedValue=" + getEarnedValue() +
-            ", winningHouse='" + isWinningHouse() + "'" +
+            ", colour='" + getColour() + "'" +
             "}";
     }
 }

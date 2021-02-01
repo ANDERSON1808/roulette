@@ -7,9 +7,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * An authority (a security role) used by Spring Security.
- */
 @Document(collection = "jhi_authority")
 public class Authority implements Serializable {
 
