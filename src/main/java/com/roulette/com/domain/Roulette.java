@@ -10,9 +10,6 @@ import java.io.Serializable;
 
 import com.roulette.com.domain.enumeration.typeColour;
 
-/**
- * A Roulette.
- */
 @Document(collection = "roulette")
 public class Roulette implements Serializable {
 

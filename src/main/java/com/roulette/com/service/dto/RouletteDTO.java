@@ -3,9 +3,6 @@ package com.roulette.com.service.dto;
 import java.io.Serializable;
 import org.hibernate.validator.constraints.Range;
 
-/**
- * A DTO for the {@link com.roulette.com.domain.Roulette} entity.
- */
 public class RouletteDTO implements Serializable {
 
     private String id;

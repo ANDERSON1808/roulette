@@ -1,14 +1,12 @@
 package com.roulette.com.domain;
 
+import com.roulette.com.domain.enumeration.typeColour;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 
-/**
- * A Game.
- */
 @Document(collection = "game")
 public class Game implements Serializable {
 
@@ -20,14 +18,21 @@ public class Game implements Serializable {
     @Field("roulette")
     private String roulette;
 
-    @Field("winning_bet")
-    private String winningBet;
+    @Field("winning_number")
+    private Long WinningNumber;
+
+    @Field("winner")
+    private Integer winner;
 
     @Field("earned_value")
-    private Integer earnedValue;
+    private Long earnedValue;
 
-    @Field("winning_house")
-    private Boolean winningHouse;
+    @Field("colour")
+    private typeColour colour;
+
+    @Field("msn")
+    private String msn;
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public String getId() {
@@ -51,46 +56,66 @@ public class Game implements Serializable {
         this.roulette = roulette;
     }
 
-    public String getWinningBet() {
-        return winningBet;
+    public Long getWinningNumber() {
+        return WinningNumber;
     }
 
-    public Game winningBet(String winningBet) {
-        this.winningBet = winningBet;
+    public Game WinningNumber(Long WinningNumber) {
+        this.WinningNumber = WinningNumber;
         return this;
     }
 
-    public void setWinningBet(String winningBet) {
-        this.winningBet = winningBet;
+    public void setWinningNumber(Long WinningNumber) {
+        this.WinningNumber = WinningNumber;
     }
 
-    public Integer getEarnedValue() {
+    public Integer getWinner() {
+        return winner;
+    }
+
+    public Game winner(Integer winner) {
+        this.winner = winner;
+        return this;
+    }
+
+    public void setWinner(Integer winner) {
+        this.winner = winner;
+    }
+
+    public Long getEarnedValue() {
         return earnedValue;
     }
 
-    public Game earnedValue(Integer earnedValue) {
+    public Game earnedValue(Long earnedValue) {
         this.earnedValue = earnedValue;
         return this;
     }
 
-    public void setEarnedValue(Integer earnedValue) {
+    public void setEarnedValue(Long earnedValue) {
         this.earnedValue = earnedValue;
     }
 
-    public Boolean isWinningHouse() {
-        return winningHouse;
+    public typeColour getColour() {
+        return colour;
     }
 
-    public Game winningHouse(Boolean winningHouse) {
-        this.winningHouse = winningHouse;
+    public Game colour(typeColour colour) {
+        this.colour = colour;
         return this;
     }
 
-    public void setWinningHouse(Boolean winningHouse) {
-        this.winningHouse = winningHouse;
+    public void setColour(typeColour colour) {
+        this.colour = colour;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
+    public String getMsn() {
+        return msn;
+    }
+
+    public void setMsn(String msn) {
+        this.msn = msn;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -113,9 +138,10 @@ public class Game implements Serializable {
         return "Game{" +
             "id=" + getId() +
             ", roulette='" + getRoulette() + "'" +
-            ", winningBet='" + getWinningBet() + "'" +
+            ", WinningNumber=" + getWinningNumber() +
+            ", winner=" + getWinner() +
             ", earnedValue=" + getEarnedValue() +
-            ", winningHouse='" + isWinningHouse() + "'" +
+            ", colour='" + getColour() + "'" +
             "}";
     }
 }

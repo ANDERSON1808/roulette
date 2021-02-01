@@ -31,9 +31,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Integration tests for the {@link UserResource} REST controller.
- */
 @AutoConfigureMockMvc
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @SpringBootTest(classes = RouletteApp.class)
@@ -83,12 +80,6 @@ public class UserResourceIT {
         cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE).clear();
     }
 
-    /**
-     * Create a User.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which has a required relationship to the User entity.
-     */
     public static User createEntity() {
         User user = new User();
         user.setLogin(DEFAULT_LOGIN);

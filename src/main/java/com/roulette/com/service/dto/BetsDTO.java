@@ -1,11 +1,11 @@
 package com.roulette.com.service.dto;
 
+import com.roulette.com.domain.enumeration.typeColour;
+import org.hibernate.validator.constraints.Range;
+
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * A DTO for the {@link com.roulette.com.domain.Bets} entity.
- */
 public class BetsDTO implements Serializable {
 
     private String id;
@@ -14,11 +14,12 @@ public class BetsDTO implements Serializable {
 
     private String user;
 
+    @Range(min = 0,max = 36)
     private Integer betNumber;
 
-    private Integer colorBet;
+    private typeColour colorBet;
 
-    @Size(min = 0, max = 10000)
+    @Range(min = 0, max = 10000)
     private Integer betValue;
 
     private Boolean state;
@@ -56,11 +57,11 @@ public class BetsDTO implements Serializable {
         this.betNumber = betNumber;
     }
 
-    public Integer getColorBet() {
+    public typeColour getColorBet() {
         return colorBet;
     }
 
-    public void setColorBet(Integer colorBet) {
+    public void setColorBet(typeColour colorBet) {
         this.colorBet = colorBet;
     }
 

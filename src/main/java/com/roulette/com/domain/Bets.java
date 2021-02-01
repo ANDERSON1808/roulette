@@ -1,14 +1,13 @@
 package com.roulette.com.domain;
 
+import com.roulette.com.domain.enumeration.typeColour;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 
-/**
- * A Bets.
- */
 @Document(collection = "bets")
 public class Bets implements Serializable {
 
@@ -23,12 +22,14 @@ public class Bets implements Serializable {
     @Field("user")
     private String user;
 
+    @Range(min = 0,max = 36)
     @Field("bet_number")
     private Integer betNumber;
 
     @Field("color_bet")
-    private Integer colorBet;
+    private typeColour colorBet;
 
+    @Range(min = 0,max = 10000)
     @Field("bet_value")
     private Integer betValue;
 
@@ -83,16 +84,16 @@ public class Bets implements Serializable {
         this.betNumber = betNumber;
     }
 
-    public Integer getColorBet() {
+    public typeColour getColorBet() {
         return colorBet;
     }
 
-    public Bets colorBet(Integer colorBet) {
+    public Bets colorBet(typeColour colorBet) {
         this.colorBet = colorBet;
         return this;
     }
 
-    public void setColorBet(Integer colorBet) {
+    public void setColorBet(typeColour colorBet) {
         this.colorBet = colorBet;
     }
 

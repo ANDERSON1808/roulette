@@ -15,11 +15,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
-/**
- * Service for managing audit events.
- * <p>
- * This is the default implementation to support SpringBoot Actuator {@code AuditEventRepository}.
- */
 @Service
 public class AuditEventService {
 
@@ -40,11 +35,6 @@ public class AuditEventService {
         this.jHipsterProperties = jhipsterProperties;
     }
 
-    /**
-     * Old audit events should be automatically deleted after 30 days.
-     *
-     * This is scheduled to get fired at 12:00 (am).
-     */
     @Scheduled(cron = "0 0 12 * * ?")
     public void removeOldAuditEvents() {
         persistenceAuditEventRepository

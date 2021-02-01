@@ -6,9 +6,6 @@ import com.roulette.com.service.dto.GameDTO;
 
 import org.mapstruct.*;
 
-/**
- * Mapper for the entity {@link Game} and its DTO {@link GameDTO}.
- */
 @Mapper(componentModel = "spring", uses = {})
 public interface GameMapper extends EntityMapper<GameDTO, Game> {
 

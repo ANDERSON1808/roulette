@@ -54,18 +54,6 @@ public class RouletteResource {
             .body(result);
     }
 
-    @PutMapping("/roulettes")
-    public ResponseEntity<RouletteDTO> updateRoulette(@Valid @RequestBody RouletteDTO rouletteDTO) throws URISyntaxException {
-        log.debug("REST request to update Roulette : {}", rouletteDTO);
-        if (rouletteDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        RouletteDTO result = rouletteService.save(rouletteDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, rouletteDTO.getId()))
-            .body(result);
-    }
-
     @GetMapping("/roulettes")
     public ResponseEntity<List<RouletteDTO>> getAllRoulettes(Pageable pageable) {
         log.debug("REST request to get a page of Roulettes");
@@ -75,20 +63,6 @@ public class RouletteResource {
     }
 
     @GetMapping("/roulettes/{id}")
-    public ResponseEntity<RouletteDTO> getRoulette(@PathVariable String id) {
-        log.debug("REST request to get Roulette : {}", id);
-        Optional<RouletteDTO> rouletteDTO = rouletteService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(rouletteDTO);
-    }
-
-    @DeleteMapping("/roulettes/{id}")
-    public ResponseEntity<Void> deleteRoulette(@PathVariable String id) {
-        log.debug("REST request to delete Roulette : {}", id);
-        rouletteService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
-    }
-
-    @PutMapping("/roulettes/{id}")
     public ResponseEntity<Object>openRoulette(@PathVariable String id){
         if (id == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

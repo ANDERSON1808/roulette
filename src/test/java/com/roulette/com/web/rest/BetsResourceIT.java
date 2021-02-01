@@ -27,9 +27,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * Integration tests for the {@link BetsResource} REST controller.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc
@@ -45,8 +42,6 @@ public class BetsResourceIT {
     private static final Integer DEFAULT_BET_NUMBER = 1;
     private static final Integer UPDATED_BET_NUMBER = 2;
 
-    private static final Integer DEFAULT_COLOR_BET = 1;
-    private static final Integer UPDATED_COLOR_BET = 2;
 
     private static final Integer DEFAULT_BET_VALUE = 1;
     private static final Integer UPDATED_BET_VALUE = 2;
@@ -68,34 +63,20 @@ public class BetsResourceIT {
 
     private Bets bets;
 
-    /**
-     * Create an entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
     public static Bets createEntity() {
         Bets bets = new Bets()
             .roulette(DEFAULT_ROULETTE)
             .user(DEFAULT_USER)
             .betNumber(DEFAULT_BET_NUMBER)
-            .colorBet(DEFAULT_COLOR_BET)
             .betValue(DEFAULT_BET_VALUE)
             .state(DEFAULT_STATE);
         return bets;
     }
-    /**
-     * Create an updated entity for this test.
-     *
-     * This is a static method, as tests for other entities might also need it,
-     * if they test an entity which requires the current entity.
-     */
     public static Bets createUpdatedEntity() {
         Bets bets = new Bets()
             .roulette(UPDATED_ROULETTE)
             .user(UPDATED_USER)
             .betNumber(UPDATED_BET_NUMBER)
-            .colorBet(UPDATED_COLOR_BET)
             .betValue(UPDATED_BET_VALUE)
             .state(UPDATED_STATE);
         return bets;
@@ -124,7 +105,6 @@ public class BetsResourceIT {
         assertThat(testBets.getRoulette()).isEqualTo(DEFAULT_ROULETTE);
         assertThat(testBets.getUser()).isEqualTo(DEFAULT_USER);
         assertThat(testBets.getBetNumber()).isEqualTo(DEFAULT_BET_NUMBER);
-        assertThat(testBets.getColorBet()).isEqualTo(DEFAULT_COLOR_BET);
         assertThat(testBets.getBetValue()).isEqualTo(DEFAULT_BET_VALUE);
         assertThat(testBets.isState()).isEqualTo(DEFAULT_STATE);
     }
@@ -162,11 +142,10 @@ public class BetsResourceIT {
             .andExpect(jsonPath("$.[*].roulette").value(hasItem(DEFAULT_ROULETTE)))
             .andExpect(jsonPath("$.[*].user").value(hasItem(DEFAULT_USER)))
             .andExpect(jsonPath("$.[*].betNumber").value(hasItem(DEFAULT_BET_NUMBER)))
-            .andExpect(jsonPath("$.[*].colorBet").value(hasItem(DEFAULT_COLOR_BET)))
             .andExpect(jsonPath("$.[*].betValue").value(hasItem(DEFAULT_BET_VALUE)))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.booleanValue())));
     }
-    
+
     @Test
     public void getBets() throws Exception {
         // Initialize the database
@@ -180,7 +159,6 @@ public class BetsResourceIT {
             .andExpect(jsonPath("$.roulette").value(DEFAULT_ROULETTE))
             .andExpect(jsonPath("$.user").value(DEFAULT_USER))
             .andExpect(jsonPath("$.betNumber").value(DEFAULT_BET_NUMBER))
-            .andExpect(jsonPath("$.colorBet").value(DEFAULT_COLOR_BET))
             .andExpect(jsonPath("$.betValue").value(DEFAULT_BET_VALUE))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE.booleanValue()));
     }
@@ -204,7 +182,6 @@ public class BetsResourceIT {
             .roulette(UPDATED_ROULETTE)
             .user(UPDATED_USER)
             .betNumber(UPDATED_BET_NUMBER)
-            .colorBet(UPDATED_COLOR_BET)
             .betValue(UPDATED_BET_VALUE)
             .state(UPDATED_STATE);
         BetsDTO betsDTO = betsMapper.toDto(updatedBets);
@@ -221,7 +198,6 @@ public class BetsResourceIT {
         assertThat(testBets.getRoulette()).isEqualTo(UPDATED_ROULETTE);
         assertThat(testBets.getUser()).isEqualTo(UPDATED_USER);
         assertThat(testBets.getBetNumber()).isEqualTo(UPDATED_BET_NUMBER);
-        assertThat(testBets.getColorBet()).isEqualTo(UPDATED_COLOR_BET);
         assertThat(testBets.getBetValue()).isEqualTo(UPDATED_BET_VALUE);
         assertThat(testBets.isState()).isEqualTo(UPDATED_STATE);
     }

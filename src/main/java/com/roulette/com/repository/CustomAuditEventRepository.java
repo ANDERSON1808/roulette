@@ -15,17 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.*;
 
-/**
- * An implementation of Spring Boot's {@link AuditEventRepository}.
- */
 @Repository
 public class CustomAuditEventRepository implements AuditEventRepository {
 
     private static final String AUTHORIZATION_FAILURE = "AUTHORIZATION_FAILURE";
 
-    /**
-     * Should be the same as in Liquibase migration.
-     */
     protected static final int EVENT_DATA_COLUMN_MAX_LENGTH = 255;
 
     private final PersistenceAuditEventRepository persistenceAuditEventRepository;
@@ -64,9 +58,6 @@ public class CustomAuditEventRepository implements AuditEventRepository {
         }
     }
 
-    /**
-     * Truncate event data that might exceed column length.
-     */
     private Map<String, String> truncate(Map<String, String> data) {
         Map<String, String> results = new HashMap<>();
 

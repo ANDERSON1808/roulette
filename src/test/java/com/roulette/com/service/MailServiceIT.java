@@ -39,9 +39,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-/**
- * Integration tests for {@link MailService}.
- */
 @SpringBootTest(classes = RouletteApp.class)
 @ExtendWith(RedisTestContainerExtension.class)
 public class MailServiceIT {
@@ -232,9 +229,6 @@ public class MailServiceIT {
         }
     }
 
-    /**
-     * Convert a lang key to the Java locale.
-     */
     private String getJavaLocale(String langKey) {
         String javaLangKey = langKey;
         Matcher matcher2 = PATTERN_LOCALE_2.matcher(langKey);
