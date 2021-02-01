@@ -49,7 +49,7 @@ public class GameResource {
         }
         List<Game> gameList = gameService.gameOver(roulette);
         if (gameList == null) {
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
         return ResponseEntity.ok().body(gameList);
     }

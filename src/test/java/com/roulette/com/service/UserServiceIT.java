@@ -1,6 +1,5 @@
 package com.roulette.com.service;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.config.Constants;
 import com.roulette.com.domain.User;
@@ -26,7 +25,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class UserServiceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";

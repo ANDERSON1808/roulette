@@ -1,6 +1,5 @@
 package com.roulette.com.web.rest;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.Roulette;
 import com.roulette.com.repository.RouletteRepository;
@@ -10,7 +9,6 @@ import com.roulette.com.service.mapper.RouletteMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.roulette.com.domain.enumeration.typeColour;
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class RouletteResourceIT {
@@ -158,77 +155,5 @@ public class RouletteResourceIT {
             .andExpect(jsonPath("$.colour").value(DEFAULT_COLOUR.toString()))
             .andExpect(jsonPath("$.code").value(DEFAULT_CODE))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE.booleanValue()));
-    }
-    @Test
-    public void getNonExistingRoulette() throws Exception {
-        // Get the roulette
-        restRouletteMockMvc.perform(get("/api/roulettes/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void updateRoulette() throws Exception {
-        // Initialize the database
-        rouletteRepository.save(roulette);
-
-        int databaseSizeBeforeUpdate = rouletteRepository.findAll().size();
-
-        // Update the roulette
-        Roulette updatedRoulette = rouletteRepository.findById(roulette.getId()).get();
-        updatedRoulette
-            .name(UPDATED_NAME)
-            .maximum(UPDATED_MAXIMUM)
-            .code(UPDATED_CODE)
-            .state(UPDATED_STATE);
-        RouletteDTO rouletteDTO = rouletteMapper.toDto(updatedRoulette);
-
-        restRouletteMockMvc.perform(put("/api/roulettes")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rouletteDTO)))
-            .andExpect(status().isOk());
-
-        // Validate the Roulette in the database
-        List<Roulette> rouletteList = rouletteRepository.findAll();
-        assertThat(rouletteList).hasSize(databaseSizeBeforeUpdate);
-        Roulette testRoulette = rouletteList.get(rouletteList.size() - 1);
-        assertThat(testRoulette.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testRoulette.getMaximum()).isEqualTo(UPDATED_MAXIMUM);
-        assertThat(testRoulette.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testRoulette.isState()).isEqualTo(UPDATED_STATE);
-    }
-
-    @Test
-    public void updateNonExistingRoulette() throws Exception {
-        int databaseSizeBeforeUpdate = rouletteRepository.findAll().size();
-
-        // Create the Roulette
-        RouletteDTO rouletteDTO = rouletteMapper.toDto(roulette);
-
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restRouletteMockMvc.perform(put("/api/roulettes")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(rouletteDTO)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the Roulette in the database
-        List<Roulette> rouletteList = rouletteRepository.findAll();
-        assertThat(rouletteList).hasSize(databaseSizeBeforeUpdate);
-    }
-
-    @Test
-    public void deleteRoulette() throws Exception {
-        // Initialize the database
-        rouletteRepository.save(roulette);
-
-        int databaseSizeBeforeDelete = rouletteRepository.findAll().size();
-
-        // Delete the roulette
-        restRouletteMockMvc.perform(delete("/api/roulettes/{id}", roulette.getId())
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNoContent());
-
-        // Validate the database contains one less item
-        List<Roulette> rouletteList = rouletteRepository.findAll();
-        assertThat(rouletteList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

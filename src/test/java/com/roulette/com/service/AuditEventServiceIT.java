@@ -1,6 +1,5 @@
 package com.roulette.com.service;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.domain.PersistentAuditEvent;
 import com.roulette.com.repository.PersistenceAuditEventRepository;
 import com.roulette.com.RouletteApp;
@@ -16,7 +15,6 @@ import java.time.temporal.ChronoUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class AuditEventServiceIT {
     @Autowired
     private AuditEventService auditEventService;
