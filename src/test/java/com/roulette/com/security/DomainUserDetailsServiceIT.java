@@ -1,6 +1,5 @@
 package com.roulette.com.security;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.User;
 import com.roulette.com.repository.UserRepository;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class DomainUserDetailsServiceIT {
 
     private static final String USER_ONE_LOGIN = "test-user-one";

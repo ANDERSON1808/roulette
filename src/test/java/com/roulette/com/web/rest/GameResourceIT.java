@@ -1,6 +1,5 @@
 package com.roulette.com.web.rest;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.Game;
 import com.roulette.com.repository.GameRepository;
@@ -28,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.roulette.com.domain.enumeration.typeColour;
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class GameResourceIT {
@@ -88,47 +86,6 @@ public class GameResourceIT {
     }
 
     @Test
-    public void createGame() throws Exception {
-        int databaseSizeBeforeCreate = gameRepository.findAll().size();
-        // Create the Game
-        GameDTO gameDTO = gameMapper.toDto(game);
-        restGameMockMvc.perform(post("/api/games")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
-            .andExpect(status().isCreated());
-
-        // Validate the Game in the database
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeCreate + 1);
-        Game testGame = gameList.get(gameList.size() - 1);
-        assertThat(testGame.getRoulette()).isEqualTo(DEFAULT_ROULETTE);
-        assertThat(testGame.getWinningNumber()).isEqualTo(DEFAULT_WINNING_NUMBER);
-        assertThat(testGame.getWinner()).isEqualTo(DEFAULT_WINNER);
-        assertThat(testGame.getEarnedValue()).isEqualTo(DEFAULT_EARNED_VALUE);
-        assertThat(testGame.getColour()).isEqualTo(DEFAULT_COLOUR);
-    }
-
-    @Test
-    public void createGameWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = gameRepository.findAll().size();
-
-        // Create the Game with an existing ID
-        game.setId("existing_id");
-        GameDTO gameDTO = gameMapper.toDto(game);
-
-        // An entity with an existing ID cannot be created, so this API call must fail
-        restGameMockMvc.perform(post("/api/games")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the Game in the database
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeCreate);
-    }
-
-
-    @Test
     public void getAllGames() throws Exception {
         // Initialize the database
         gameRepository.save(game);
@@ -160,79 +117,5 @@ public class GameResourceIT {
             .andExpect(jsonPath("$.winner").value(DEFAULT_WINNER))
             .andExpect(jsonPath("$.earnedValue").value(DEFAULT_EARNED_VALUE.intValue()))
             .andExpect(jsonPath("$.colour").value(DEFAULT_COLOUR.toString()));
-    }
-    @Test
-    public void getNonExistingGame() throws Exception {
-        // Get the game
-        restGameMockMvc.perform(get("/api/games/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void updateGame() throws Exception {
-        // Initialize the database
-        gameRepository.save(game);
-
-        int databaseSizeBeforeUpdate = gameRepository.findAll().size();
-
-        // Update the game
-        Game updatedGame = gameRepository.findById(game.getId()).get();
-        updatedGame
-            .roulette(UPDATED_ROULETTE)
-            .WinningNumber(UPDATED_WINNING_NUMBER)
-            .winner(UPDATED_WINNER)
-            .earnedValue(UPDATED_EARNED_VALUE)
-            .colour(UPDATED_COLOUR);
-        GameDTO gameDTO = gameMapper.toDto(updatedGame);
-
-        restGameMockMvc.perform(put("/api/games")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
-            .andExpect(status().isOk());
-
-        // Validate the Game in the database
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeUpdate);
-        Game testGame = gameList.get(gameList.size() - 1);
-        assertThat(testGame.getRoulette()).isEqualTo(UPDATED_ROULETTE);
-        assertThat(testGame.getWinningNumber()).isEqualTo(UPDATED_WINNING_NUMBER);
-        assertThat(testGame.getWinner()).isEqualTo(UPDATED_WINNER);
-        assertThat(testGame.getEarnedValue()).isEqualTo(UPDATED_EARNED_VALUE);
-        assertThat(testGame.getColour()).isEqualTo(UPDATED_COLOUR);
-    }
-
-    @Test
-    public void updateNonExistingGame() throws Exception {
-        int databaseSizeBeforeUpdate = gameRepository.findAll().size();
-
-        // Create the Game
-        GameDTO gameDTO = gameMapper.toDto(game);
-
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restGameMockMvc.perform(put("/api/games")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(gameDTO)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the Game in the database
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeUpdate);
-    }
-
-    @Test
-    public void deleteGame() throws Exception {
-        // Initialize the database
-        gameRepository.save(game);
-
-        int databaseSizeBeforeDelete = gameRepository.findAll().size();
-
-        // Delete the game
-        restGameMockMvc.perform(delete("/api/games/{id}", game.getId())
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNoContent());
-
-        // Validate the database contains one less item
-        List<Game> gameList = gameRepository.findAll();
-        assertThat(gameList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

@@ -2,7 +2,6 @@ package com.roulette.com.service;
 
 import com.roulette.com.config.Constants;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.User;
 import io.github.jhipster.config.JHipsterProperties;
@@ -40,7 +39,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class MailServiceIT {
 
     private static final String[] languages = {

@@ -2,7 +2,6 @@ package com.roulette.com.repository;
 
 import com.roulette.com.RouletteApp;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.config.Constants;
 import com.roulette.com.config.audit.AuditEventConverter;
 import com.roulette.com.domain.PersistentAuditEvent;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static com.roulette.com.repository.CustomAuditEventRepository.EVENT_DATA_COLUMN_MAX_LENGTH;
 
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class CustomAuditEventRepositoryIT {
 
     @Autowired

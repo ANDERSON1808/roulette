@@ -1,6 +1,5 @@
 package com.roulette.com.web.rest;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.User;
 import com.roulette.com.repository.UserRepository;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,7 +24,6 @@ import static org.hamcrest.Matchers.not;
 
 @AutoConfigureMockMvc
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class UserJWTControllerIT {
 
     @Autowired

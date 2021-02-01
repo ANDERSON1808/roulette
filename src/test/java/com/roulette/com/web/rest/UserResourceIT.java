@@ -1,6 +1,5 @@
 package com.roulette.com.web.rest;
 
-import com.roulette.com.RedisTestContainerExtension;
 import com.roulette.com.RouletteApp;
 import com.roulette.com.domain.Authority;
 import com.roulette.com.domain.User;
@@ -34,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @SpringBootTest(classes = RouletteApp.class)
-@ExtendWith(RedisTestContainerExtension.class)
 public class UserResourceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";
